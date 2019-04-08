@@ -9,4 +9,5 @@ d:\documents\cg\cube collisions\cube collisions\cg_demo\source\particle.cpp(39):
 d:\documents\cg\cube collisions\cube collisions\cg_demo\source\particle.cpp(49): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 d:\documents\cg\cube collisions\cube collisions\cg_demo\source\particle.cpp(50): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 d:\documents\cg\cube collisions\cube collisions\cg_demo\source\particle.cpp(51): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+d:\documents\cg\cube collisions\cube collisions\cg_demo\source\particle.cpp(126): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   CG_Demo.vcxproj -> D:\Documents\CG\Cube Collisions\Cube Collisions\Debug\CG_Demo.exe

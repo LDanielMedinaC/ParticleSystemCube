@@ -39,21 +39,6 @@ float dt;
 
 #define NUM_PARTICLES 100
 
-void rectangle(float x, float w, float y, float h, float r, float g, float b)
-{
-	glPushMatrix(); {
-		glColor3f(r, g, b);
-		glBegin(GL_POLYGON);
-		{
-			glVertex3f(x, y, 0);
-			glVertex3f(x + w, y, 0);
-			glVertex3f(x + w, y - h, 0);
-			glVertex3f(x, y - h, 0);
-		}
-		glEnd;
-	}
-	glPopMatrix();
-}
 
 void init() // FOR GLUT LOOP
 {
@@ -137,7 +122,7 @@ void idle()															// Called when drawing is finished.
 		}
 	}
 
-	//printf("%.3f, %.3f, %.3f\n", p->forces[0], p->forces[1], p->forces[2]);
+	
 
 	glutPostRedisplay();											// Display again.
 }
