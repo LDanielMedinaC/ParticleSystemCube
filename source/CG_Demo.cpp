@@ -29,20 +29,24 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <list> 
+#include <iterator> 
 
 #include "Particle.h"
+
+
+using namespace std;
 
 GLfloat *Ia, *Is, *Id, *Ip;
 
 Particle ** particles;
+list<Particle*> lParticles[203];
 float dt;
 
 #define NUM_PARTICLES 100
 
 
-void init() // FOR GLUT LOOP
-{
-
+void iniLight() {
 	Ia = new GLfloat[4]; // Ambient
 	Id = new GLfloat[4]; // Diffuse
 	Is = new GLfloat[4]; // Specular
@@ -77,13 +81,26 @@ void init() // FOR GLUT LOOP
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, Id);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, Is);
 	glLightfv(GL_LIGHT0, GL_POSITION, Ip);
+}
 
-	dt = 0.02f;
 
-	particles = new Particle * [NUM_PARTICLES];
+void addList(Particle * p) {
+	int x = (p -> position[0] + 10) * 10;
+	lParticles[x].push_back(p);
+}
+
+void iniParticles() {
+	particles = new Particle *[NUM_PARTICLES];
 	for (int i = 0; i < NUM_PARTICLES; i++) {
 		particles[i] = new Particle(0.1, 0.2);
+		addList(particles[i]);
 	}
+}
+
+void init() // FOR GLUT LOOP
+{
+	iniLight();
+	iniParticles();
 
 	glEnable(GL_DEPTH_TEST);			// Enable check for close and far objects.
 	glClearColor(0.0, 0.0, 0.0, 0.0);	// Clear the color state.
@@ -104,8 +121,50 @@ void display()							// Called for each frame (about 60 times per second).
 	glutSwapBuffers();												// Swap the hidden and visible buffers.
 }
 
+
+void updateParticles() {
+	for (int i = 0; i <= 201; i++) {
+		while (!lParticles[i].empty()) {
+			Particle * p = lParticles[i].front();
+			lParticles[i].pop_front();
+			p->update();
+			addList(p);
+		}
+	}
+}
+
+bool checkCrash(int pos, Particle *p) {
+	bool crashed = false;
+	for (list <Particle *> ::iterator it = lParticles[pos].begin(); it != lParticles[pos].end(); ++it) {
+		if (p == *it)
+			continue\;
+		if (p->inCollision(*it)) {
+			crashed = true;
+			p->isColliding = true;
+		}
+	}
+	return crashed;
+}
+
+void checkCrashes() {
+	for (int i = 0; i <= 201; i++) {
+		for (list <Particle *> ::iterator it = lParticles[i].begin(); it != lParticles[i].end(); ++it) {
+			bool crashed = false;
+			Particle *p = *it;
+			for(int j = -2; j < 3; j++)
+				if(j >= 0)
+					crashed |= checkCrash(j+i, *it);
+			if (!crashed)
+				p->isColliding = false;
+		}
+	}
+}
+
 void idle()															// Called when drawing is finished.
 {
+	updateParticles();
+	checkCrashes();
+	/*checkCrashes();
 	for (int i = 0; i < NUM_PARTICLES; i++) {
 		particles[i]->update();
 		bool crashed = false;
@@ -120,7 +179,7 @@ void idle()															// Called when drawing is finished.
 		if (!crashed) {
 			particles[i]->isColliding = false;
 		}
-	}
+	}*/
 
 	
 

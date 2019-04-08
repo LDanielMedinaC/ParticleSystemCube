@@ -55,7 +55,7 @@ Particle::Particle(float minR, float maxR) {
 	alpha[0] = 100;
 
 	isColliding = false;
-	dt = 0.01f;
+	dt = 0.001f;
 }
 
 Particle::~Particle() {}
