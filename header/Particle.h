@@ -43,7 +43,7 @@ public:
 
 	GLfloat *ka, *ks, *kd, *kd2, *alpha;
 
-	Particle(float minR, float maxR);
+	Particle();
 	~Particle();
 	void draw();
 	void checkWallCollision();

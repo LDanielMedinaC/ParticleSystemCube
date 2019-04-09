@@ -82,7 +82,7 @@ void init() // FOR GLUT LOOP
 
 	particles = new Particle * [NUM_PARTICLES];
 	for (int i = 0; i < NUM_PARTICLES; i++) {
-		particles[i] = new Particle(0.1, 0.2);
+		particles[i] = new Particle();
 	}
 
 	glEnable(GL_DEPTH_TEST);			// Enable check for close and far objects.
